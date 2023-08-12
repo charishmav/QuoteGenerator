@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote of the day</title>
+    <link rel="stylesheet" href = "quote.css">
+</head>
+<body>
+    <div class ="quote-box">
+        <h2>Quote for you &#10084;</h2>
+        <blockquote id="quote" >Loading...</blockquote>
+        <span id ="author">Loading...</span>
+        <div>
+            <button onclick="getquote(api_url);">New Quote</button>
+            <button onclick="tweet()"><img src="twitter.svg" >Tweet</button>
+        </div>
+    </div>
+    <script>
+     const quote =  document.getElementById("quote");
+     const author = document.getElementById("author");
+     const api_url= "https://type.fit/api/quotes";
+   
+  async function getquote(url) {
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data);
+
+            // Choose a random quote from the array
+            const randomIndex = Math.floor(Math.random() * data.length);
+            const selectedQuote = data[randomIndex];
+
+            quote.innerHTML = selectedQuote.text;
+            author.innerHTML = "- " + selectedQuote.author;
+        }
+
+        function getNewQuote() {
+            getquote(api_url);
+        }
+
+        // Call getNewQuote function to load a quote when the page loads
+        getNewQuote();
+        function tweet(){
+          window.open( "https://twitter.com/intent/tweet?text=" + quote.innerHTML+ "----by"+author.innerHTML,"Tweet Window","width=600,height=300");
+        }
+    </script>
+</body>
+</html>
